@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvas绘制直方图</title>
+    <style>
+      body {
+        display: flex;
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+      }
+      canvas {
+        display: block;
+        margin: 10px auto 0;
+        border: 1px solid orange;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas width="900" height="600"></canvas>
+    <script>
+      const getDpr = () => window.devicePixelRatio || 1;
+      const canvas = document.querySelector("canvas");
+      const ctx = canvas.getContext("2d");
+      const dpr = getDpr();
+      canvas.style.width = canvas.width + "px";
+      canvas.style.height = canvas.height + "px";
+      canvas.width = canvas.width * dpr;
+      canvas.height = canvas.height * dpr;
+
+      ctx.scale(dpr, dpr);
+
+      // 提前设置好相关属性
+      const ht = canvas.clientHeight;
+      const wd = canvas.clientWidth;
+      const pad = 20;
+      const bottomPad = 20;
+
+      // 绘制坐标轴
+      ctx.beginPath();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "violet";
+      ctx.moveTo(pad, pad);
+      ctx.lineTo(pad, ht * dpr - bottomPad);
+      ctx.lineTo(wd * dpr - pad, ht * dpr - bottomPad);
+      ctx.stroke();
+      ctx.closePath();
+
+      // 绘制x刻度
+      ctx.beginPath();
+      const step = 100;
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "tomato";
+      for (let i = 1; i < Math.floor((wd * dpr) / step); i++) {
+        ctx.moveTo(pad + step * i, ht * dpr - bottomPad);
+        ctx.lineTo(pad + step * i, ht * dpr - bottomPad + 10);
+      }
+      ctx.stroke();
+
+      ctx.closePath();
+
+      // 绘制y刻度
+      ctx.beginPath();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "deeppink";
+      for (let i = 1; i < Math.floor((ht * dpr) / step); i++) {
+        ctx.moveTo(pad + 1, ht * dpr - bottomPad - step * i);
+        ctx.lineTo(pad + 10, ht * dpr - bottomPad - step * i);
+      }
+      ctx.stroke();
+      ctx.closePath();
+
+      // 描边 + 填充
+      /*
+      ctx.beginPath()
+      ctx.lineWidth = 5
+      ctx.strokeStyle = 'yellow'
+      ctx.fillStyle = 'hotpink'
+      ctx.rect(100,100,300,200)
+      // 填充
+      ctx.fill()
+      // 描边
+      ctx.stroke()
+      ctx.closePath()
+
+      // 只描边操作
+      ctx.beginPath()
+      ctx.lineWidth = 4
+      ctx.strokeStyle = 'seagreen'
+      ctx.strokeRect(100,320,300,200)
+      ctx.closePath()
+
+      // 只填充
+      ctx.beginPath()
+      ctx.lineWidth = 4
+      ctx.fillStyle = 'skyblue'
+      ctx.fillRect(410,100,300,200)
+      ctx.closePath()
+
+      */
+
+      // 直方图绘制
+      ctx.beginPath();
+      for (let i = 1; i < Math.floor((wd * dpr) / step); i++) {
+        const height = Math.random() * 300 + 50;
+        ctx.fillStyle = '#' + parseInt((Math.random() * 0xFFFFFF)).toString(16);
+        ctx.fillRect(i * step, ht * dpr - bottomPad - height, 40, height);
+      }
+      ctx.closePath();
+    </script>
+  </body>
+</html>

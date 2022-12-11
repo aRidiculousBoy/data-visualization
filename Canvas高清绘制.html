@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canvas高清绘制</title>
+</head>
+<body>
+  <canvas id="canvas" width="600" height="500">当前浏览器不支持canvas</canvas>
+  <script>
+    const getDpr = () => window.devicePixelRatio || 1
+    const canvas = document.querySelector('canvas')
+    const ctx = canvas.getContext('2d')
+    const dpr = getDpr()
+    const oldWidth = canvas.width
+    const oldHeight = canvas.height
+    canvas.width = canvas.width * dpr
+    canvas.height = canvas.height * dpr
+    canvas.style.width = oldWidth + 'px'
+    canvas.style.height = oldHeight + 'px'
+    ctx.scale(dpr,dpr)
+
+    ctx.beginPath()
+    
+    // settings
+    ctx.lineWidth = 10
+    ctx.strokeStyle = 'orange'
+
+    ctx.moveTo(100,100)
+    ctx.lineTo(300,300)
+    ctx.lineTo(300,200)
+    ctx.lineTo(400,200)
+    ctx.stroke()
+    ctx.closePath()
+  </script>
+</body>
+</html>
