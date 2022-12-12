@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvas绘制文字</title>
+    <style>
+      body {
+        display: flex;
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+      }
+      canvas {
+        display: block;
+        margin: 10px auto 0;
+        border: 1px solid orange;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="900" height="600">当前浏览器不支持canvas</canvas>
+    <script>
+      const getDpr = () => window.devicePixelRatio || 1.5;
+      const canvas = document.querySelector("canvas");
+      const ctx = canvas.getContext("2d");
+      const dpr = getDpr();
+      canvas.style.width = canvas.width + "px";
+      canvas.style.height = canvas.height + "px";
+      canvas.width = canvas.width * dpr;
+      canvas.height = canvas.height * dpr;
+
+      // 绘制居中线条
+      // 横轴居中
+      ctx.beginPath();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "#ccc";
+      ctx.moveTo(450, 0);
+      ctx.lineTo(450, 600);
+      ctx.stroke();
+      ctx.closePath();
+
+      // 纵轴居中
+      ctx.beginPath();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "#ccc";
+      ctx.moveTo(0, 300);
+      ctx.lineTo(900, 300);
+      ctx.stroke();
+      ctx.closePath();
+
+      // 实心文字 描边文字
+      ctx.beginPath();
+      ctx.strokeStyle = "hotpink";
+      ctx.fillStyle = "orange";
+      ctx.font = "bold 60px 微软雅黑";
+
+      ctx.fillText("coderwyh", 100, 100);
+      ctx.fill();
+
+      ctx.strokeText("aRidiculousBoy", 200, 200);
+      ctx.stroke();
+
+      // 设置对齐属性
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("truth is freedom!", 450, 300);
+      ctx.closePath();
+    </script>
+  </body>
+</html>
