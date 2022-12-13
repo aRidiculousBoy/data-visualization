@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvas绘制圆形</title>
+    <style>
+      body {
+        display: flex;
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+      }
+      canvas {
+        display: block;
+        margin: 10px auto 0;
+        border: 1px solid orange;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas width="900" height="600"></canvas>
+    <script>
+      const getDpr = () => window.devicePixelRatio || 1;
+      const canvas = document.querySelector("canvas");
+      const ctx = canvas.getContext("2d");
+      const dpr = getDpr();
+      canvas.style.width = canvas.width + "px";
+      canvas.style.height = canvas.height + "px";
+      canvas.width = canvas.width * dpr;
+      canvas.height = canvas.height * dpr;
+
+      ctx.scale(dpr, dpr);
+
+      const wd = canvas.clientWidth * dpr;
+      const ht = canvas.clientHeight * dpr;
+      let x = (y = 100);
+      const r = 20;
+      let xSpeed = 6;
+      let ySpeed = 4;
+
+      const drawCricle = (x, y, r) => {
+        ctx.beginPath();
+        ctx.fillStyle = "orange";
+        ctx.arc(x, y, r, Math.PI * 2, false);
+        ctx.fill();
+        ctx.closePath();
+      };
+
+      drawCricle(x, y, r);
+
+      setInterval(() => {
+        // 清空画布
+        ctx.clearRect(0, 0, wd, ht);
+        if (x - r <= 0 || x + r >= wd) {
+          xSpeed = -xSpeed
+        }
+
+        if (y - r <= 0 || y + r >= ht) {
+          ySpeed = -ySpeed
+        }
+        drawCricle((x += xSpeed), (y += ySpeed), r);
+      }, 20);
+    </script>
+  </body>
+</html>
